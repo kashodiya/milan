@@ -37,10 +37,8 @@ The system will provide end-to-end matrimonial service functionality including u
 - **SRS:** System Requirements Specification
 - **UI:** User Interface
 - **API:** Application Programming Interface
-- **GDPR:** General Data Protection Regulation
 
 ### 1.4 References
-- IEEE Standard 830-1998: IEEE Recommended Practice for Software Requirements Specifications
 - Matrimonial Service Industry Standards and Best Practices
 
 ### 1.5 Overview
@@ -49,7 +47,7 @@ The remaining sections of this document provide a general description of the sys
 ## 2. System Overview
 
 ### 2.1 Product Perspective
-The matrimonial service will be a web-based platform accessible via desktop and mobile browsers with a potential for native mobile applications in future releases. The system will operate as a standalone service but may integrate with social media platforms and payment gateways.
+The matrimonial service will be a web-based platform accessible via desktop and mobile browsers. The system will operate as a standalone service but may integrate with social media platforms and payment gateways.
 
 ### 2.2 Product Features
 - User registration and profile management
@@ -73,19 +71,14 @@ The matrimonial service will be a web-based platform accessible via desktop and 
 ### 2.4 Operating Environment
 - Web browsers: Chrome, Firefox, Safari, Edge (latest 2 versions)
 - Mobile responsiveness for iOS and Android devices
-- Server: Cloud-based infrastructure
-- Database: Relational database management system
+- Database: Relational database management system - sqlite
 
 ### 2.5 Design and Implementation Constraints
-- GDPR and local data protection regulations compliance
 - Secure handling of sensitive personal information
 - Scalable architecture to support user base growth
-- Multi-language support for international markets
 
 ### 2.6 Assumptions and Dependencies
 - Users have basic computer literacy and internet access
-- Third-party services for payments, email, and notifications are available
-- Social media APIs remain compatible for integration purposes
 
 ## 3. User Requirements
 
@@ -263,38 +256,9 @@ The matrimonial service will be a web-based platform accessible via desktop and 
 - The system shall provide customizable reports for administrators
 - The system shall export data in standard formats for further analysis
 
-## 5. Non-Functional Requirements
+## 5. Non-functional requirements
+- Keep it simple
 
-### 5.1 Performance Requirements
-- The system shall load pages in under 3 seconds
-- The system shall support at least 10,000 concurrent users
-- The system shall process search requests in under 2 seconds
-- The system shall handle at least 100 new registrations per minute
-
-### 5.2 Reliability Requirements
-- The system shall maintain 99.9% uptime
-- The system shall implement data backup every 6 hours
-- The system shall provide disaster recovery capabilities
-- The system shall handle graceful degradation under heavy load
-
-### 5.3 Security Requirements
-- The system shall encrypt all personal data at rest and in transit
-- The system shall implement multi-factor authentication for administrative access
-- The system shall regularly scan for vulnerabilities and security issues
-- The system shall maintain compliance with relevant data protection regulations
-- The system shall implement rate limiting to prevent brute force attacks
-
-### 5.4 Usability Requirements
-- The system shall provide an intuitive interface requiring minimal user training
-- The system shall implement responsive design for all device sizes
-- The system shall support accessibility standards (WCAG 2.1)
-- The system shall provide helpful error messages and guidance
-
-### 5.5 Scalability Requirements
-- The system shall be horizontally scalable to accommodate user growth
-- The system shall maintain performance under increasing load
-- The system shall support database sharding for large data volumes
-- The system shall implement caching strategies for frequently accessed data
 
 ## 6. Data Requirements
 
@@ -313,11 +277,7 @@ The matrimonial service will be a web-based platform accessible via desktop and 
 - System Configuration
 
 ### 6.2 Data Retention
-- User account data shall be retained until account deletion
-- Inactive accounts shall be archived after 1 year of inactivity
-- Message history shall be retained for the duration of the user account
-- Payment information shall be retained according to financial regulations
-- System logs shall be retained for 90 days
+- No need to do retention
 
 ### 6.3 Data Validation
 - The system shall validate all user inputs
@@ -481,7 +441,6 @@ CREATE TABLE UserPhotos (
 
 ### 8.1 General UI Requirements
 - Clean, modern design with intuitive navigation
-- Responsive layout adapting to desktop, tablet, and mobile devices
 - Consistent branding elements throughout the application
 - Clear call-to-action buttons and user guidance
 
@@ -489,7 +448,6 @@ CREATE TABLE UserPhotos (
 
 #### 8.2.1 Registration and Login
 - Simple, multi-step registration process
-- Social media login options
 - Password recovery functionality
 
 #### 8.2.2 User Dashboard
@@ -508,7 +466,6 @@ CREATE TABLE UserPhotos (
 - Intuitive search filters
 - Clear presentation of search results
 - Sortable and filterable match lists
-- Compatibility indicators
 
 #### 8.2.5 Messaging Interface
 - Conversation view with message history
@@ -549,10 +506,7 @@ CREATE TABLE UserPhotos (
 - The system shall secure API endpoints with appropriate authentication
 
 ### 9.4 Security Monitoring
-- The system shall log all security-relevant events
-- The system shall implement intrusion detection capabilities
-- The system shall conduct regular security audits
-- The system shall scan for vulnerabilities on a scheduled basis
+- Not needed
 
 ## 10. System Architecture
 
@@ -560,54 +514,27 @@ CREATE TABLE UserPhotos (
 - Web tier: Web servers handling user requests
 - Application tier: Business logic and application processing
 - Data tier: Database servers and data storage
-- Service tier: Integration services and third-party connections
 
 ### 10.2 Technology Stack
-- Frontend: HTML5, CSS3, JavaScript, React.js
-- Backend: Node.js with Express
-- Database: MySQL/PostgreSQL
-- Cache: Redis
-- Search: Elasticsearch
-- Storage: Cloud storage for media files
-- Hosting: Cloud infrastructure (AWS/Azure/GCP)
+- Frontend: React and Vite
+- Backend: Python FastAPI
+- Database: Sqlite database in a single file. 
 
 ### 10.3 Deployment Model
-- Containerized application components with Docker
-- Orchestration with Kubernetes
-- CI/CD pipeline for automated testing and deployment
-- Blue-green deployment strategy for zero-downtime updates
+- No need for deployment model
 
 ## 11. Integration Requirements
+- None
 
 ### 11.1 Third-Party Integrations
-- Payment gateways (Stripe, PayPal)
-- Email service providers (SendGrid, Mailchimp)
-- SMS notification services
-- Social media platforms for authentication
-- Analytics tools (Google Analytics, Mixpanel)
+- None
 
 ### 11.2 API Requirements
 - RESTful API design for internal and external consumption
 - API documentation with Swagger/OpenAPI
-- API versioning strategy
-- Rate limiting and throttling policies
 
 ### 11.3 Interoperability
-- Data import/export capabilities
-- Standard data formats (JSON, CSV) for data exchange
-- Webhooks for event notifications
-
-## 12. Appendices
-
-### 12.1 Glossary
-- Definitions of domain-specific terms and technical jargon
-
-### 12.2 Revision History
-- Document version control and change tracking
-
-### 12.3 References
-- Industry standards and regulatory requirements
-- Technical documentation and guidelines
+- None
 
 ---
 
