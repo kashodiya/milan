@@ -310,7 +310,7 @@ def find_matches(db: Session, user_id: int, skip: int = 0, limit: int = 20):
     opposite_gender = "female" if user_profile.gender == "male" else "male"
     
     # Build the query based on preferences
-    query = db.query(models.UserProfile).join(models.User).filter(
+    query = db.query(models.UserProfile).join(models.User, models.User.user_id == models.UserProfile.user_id).filter(
         models.User.account_status == "active",
         models.User.profile_complete == True,
         models.UserProfile.gender == opposite_gender
@@ -350,7 +350,8 @@ def find_matches(db: Session, user_id: int, skip: int = 0, limit: int = 20):
     query = query.filter(~models.UserProfile.user_id.in_(blocked_ids))
     
     # Order by last login time to prioritize active users
-    query = query.join(models.User).order_by(models.User.last_login.desc().nullslast())
+    # No need to join User again as it's already joined above
+    query = query.order_by(models.User.last_login.desc().nullslast())
     
     return query.offset(skip).limit(limit).all()
 

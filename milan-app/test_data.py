@@ -20,7 +20,9 @@ import models
 Base.metadata.create_all(bind=engine)
 
 # Connect to the database
-conn = sqlite3.connect('backend/matrimonial.db')
+# Use the database in the backend directory
+db_path = os.path.join('backend', 'matrimonial.db')
+conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
 # Check if tables exist
@@ -35,8 +37,56 @@ def hash_password(password):
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     return pwd_context.hash(password)
 
-# Create some test users
-test_users = [
+# Import libraries for generating random data
+import random
+from datetime import date, timedelta
+
+# Lists for random data generation
+male_first_names = ["John", "Michael", "David", "Robert", "James", "William", "Richard", "Joseph", "Thomas", "Charles", 
+                   "Christopher", "Daniel", "Matthew", "Anthony", "Mark", "Donald", "Steven", "Paul", "Andrew", "Joshua",
+                   "Raj", "Amit", "Vikram", "Arjun", "Rahul", "Sanjay", "Anil", "Sunil", "Vijay", "Rajesh"]
+
+female_first_names = ["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Karen",
+                     "Nancy", "Lisa", "Betty", "Margaret", "Sandra", "Ashley", "Kimberly", "Emily", "Donna", "Michelle",
+                     "Priya", "Anjali", "Neha", "Pooja", "Sunita", "Anita", "Kavita", "Meena", "Geeta", "Sita"]
+
+last_names = ["Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
+             "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin", "Thompson", "Garcia", "Martinez", "Robinson",
+             "Sharma", "Patel", "Singh", "Kumar", "Gupta", "Joshi", "Rao", "Reddy", "Verma", "Malhotra"]
+
+religions = ["Hindu", "Christian", "Muslim", "Sikh", "Buddhist", "Jain"]
+
+marital_statuses = ["never_married", "divorced", "widowed"]
+
+occupations = ["Software Engineer", "Doctor", "Teacher", "Architect", "Lawyer", "Accountant", "Nurse", "Engineer",
+              "Business Analyst", "Marketing Manager", "Sales Executive", "Consultant", "Professor", "Researcher",
+              "Entrepreneur", "Banker", "Designer", "Writer", "Artist", "Pharmacist"]
+
+educations = ["Bachelor's Degree", "Master's Degree", "PhD", "Medical Degree", "Law Degree", "High School", "Diploma"]
+
+cities_states_countries = [
+    ("Mumbai", "Maharashtra", "India"),
+    ("Delhi", "Delhi", "India"),
+    ("Bangalore", "Karnataka", "India"),
+    ("Chennai", "Tamil Nadu", "India"),
+    ("Kolkata", "West Bengal", "India"),
+    ("Hyderabad", "Telangana", "India"),
+    ("Pune", "Maharashtra", "India"),
+    ("Ahmedabad", "Gujarat", "India"),
+    ("Jaipur", "Rajasthan", "India"),
+    ("Lucknow", "Uttar Pradesh", "India"),
+    ("New York", "New York", "USA"),
+    ("Los Angeles", "California", "USA"),
+    ("Chicago", "Illinois", "USA"),
+    ("Houston", "Texas", "USA"),
+    ("Phoenix", "Arizona", "USA")
+]
+
+# Create 150 test users
+test_users = []
+
+# Keep the original 4 users
+original_users = [
     {
         "email": "john@example.com",
         "password": "password123",
@@ -102,6 +152,52 @@ test_users = [
         "location_country": "India"
     }
 ]
+
+test_users.extend(original_users)
+
+# Generate 146 more users
+for i in range(5, 151):
+    gender = "male" if i % 2 == 0 else "female"
+    first_name = random.choice(male_first_names if gender == "male" else female_first_names)
+    last_name = random.choice(last_names)
+    
+    # Generate a random date of birth between 1980 and 2000
+    start_date = date(1980, 1, 1)
+    end_date = date(2000, 12, 31)
+    time_between_dates = end_date - start_date
+    days_between_dates = time_between_dates.days
+    random_number_of_days = random.randrange(days_between_dates)
+    random_date = start_date + timedelta(days=random_number_of_days)
+    date_of_birth = random_date.strftime("%Y-%m-%d")
+    
+    # Generate height between 150 and 190 cm
+    height = round(random.uniform(150.0, 190.0), 1)
+    
+    # Select random values for other fields
+    religion = random.choice(religions)
+    marital_status = random.choice(marital_statuses)
+    occupation = random.choice(occupations)
+    education = random.choice(educations)
+    location = random.choice(cities_states_countries)
+    
+    user = {
+        "email": f"user{i}@example.com",
+        "password": "password123",
+        "gender": gender,
+        "first_name": first_name,
+        "last_name": last_name,
+        "date_of_birth": date_of_birth,
+        "height": height,
+        "religion": religion,
+        "marital_status": marital_status,
+        "occupation": occupation,
+        "education": education,
+        "location_city": location[0],
+        "location_state": location[1],
+        "location_country": location[2]
+    }
+    
+    test_users.append(user)
 
 # Insert test users
 for user in test_users:
